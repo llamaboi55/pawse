@@ -1,71 +1,68 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="ui-auto">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Pawse</title>
+  <link rel="stylesheet" href="css/ui.css">
   <link rel="stylesheet" href="css/pet.css">
   <link rel="stylesheet" href="css/settings.css">
+  <script src="js/ui.js"></script>
 </head>
-<body>
-  <header>
-    <img src="icon.png" alt="" width="40" height="40">
+<body class="ui">
+  <header class="ui-header">
+    <img src="icon.png" alt="">
     <div><h1>Pawse</h1><p>A little friend for your desktop that reminds you to take breaks.</p></div>
   </header>
 
-  <main>
-    <section class="hero">
-      <div class="stage-mini"><div id="preview" class="pet" data-pose="sit" data-act="idle"><div class="flip"></div></div></div>
+  <main class="ui-page">
+    <section class="ui-section hero">
+      <div class="stage-mini"><div class="sun"></div><div id="preview" class="pet" data-pose="sit" data-act="idle"><div class="flip"></div></div><span class="hint">Click to pet</span></div>
       <div class="hero-side">
-        <label>Name <input id="name" maxlength="20"></label>
-        <div class="seg" id="species"></div>
+        <div class="field"><span>Name</span><input id="name" maxlength="20" placeholder="Mochi"></div>
+        <div class="ui-seg" id="species"></div>
         <div class="coats" id="coats"></div>
-        <label>Size <input type="range" id="size" min="0.6" max="1.8" step="0.1"></label>
+        <label class="field size"><span>Size</span><input type="range" id="size" min="0.6" max="1.8" step="0.1" data-format="x"><output for="size"></output></label>
       </div>
     </section>
 
-    <section>
-      <h2>Breaks</h2>
-      <label class="check"><input type="checkbox" id="breaks"> Remind me to take breaks</label>
-      <div class="grid">
-        <label>Every <span><input type="number" id="every" min="5" max="240" step="5"> minutes of work</span></label>
-        <label>Break length <span><input type="number" id="breakLen" min="1" max="30"> minutes</span></label>
-      </div>
-      <p class="muted">Time away from the computer counts as a break, so it won't nag you right after you come back.</p>
+    <section class="ui-section">
+      <h2>Breaks <span class="end"><input type="checkbox" id="breaks" aria-label="Remind me to take breaks"></span></h2>
+      <p class="desc">Your pet stretches, yawns and asks for a break when it's time. Time away from the computer counts as a break, so it won't nag you right after you come back.</p>
+      <label class="ui-row"><span class="label"><b>Every</b><small>minutes of work</small></span><input type="number" id="every" min="5" max="240" step="5"></label>
+      <label class="ui-row"><span class="label"><b>Break length</b><small>minutes</small></span><input type="number" id="breakLen" min="1" max="30"></label>
       <div class="stats" id="stats"></div>
     </section>
 
-    <section>
+    <section class="ui-section">
       <h2>Daily rhythm</h2>
-      <div class="grid">
-        <label>Bedtime <input type="time" id="bedtime"></label>
-        <label>Wakes up <input type="time" id="wake"></label>
-      </div>
-      <p class="muted" id="rhythm"></p>
+      <p class="desc" id="rhythm"></p>
+      <label class="ui-row"><span class="label"><b>Bedtime</b><small>Gets sleepy and curls up</small></span><input type="time" id="bedtime"></label>
+      <label class="ui-row"><span class="label"><b>Wakes up</b></span><input type="time" id="wake"></label>
     </section>
 
-    <section>
+    <section class="ui-section">
       <h2>Behaviour</h2>
-      <label class="check"><input type="checkbox" id="chase"> Follows the mouse when it's near the bottom of the screen</label>
-      <label class="check"><input type="checkbox" id="sounds"> Little sounds (meows, woofs, purrs)</label>
-      <label class="check"><input type="checkbox" id="autostart"> Start with my computer</label>
+      <label class="ui-row"><span class="label"><b>Chase the mouse</b><small>When it's near the bottom of the screen</small></span><input type="checkbox" id="chase"></label>
+      <label class="ui-row"><span class="label"><b>Little sounds</b><small>Meows, woofs and purrs</small></span><input type="checkbox" id="sounds"></label>
+      <label class="ui-row"><span class="label"><b>Start with my computer</b></span><input type="checkbox" id="autostart"></label>
     </section>
 
-    <section class="tips">
+    <section class="ui-section tips">
       <h2>Playing</h2>
-      <ul>
-        <li><b>Click</b> to pet. <b>Double-click</b> for a trick. <b>Drag</b> to pick up and drop.</li>
-        <li>The tray icon has treats, tricks, a break-now button and a way to move to another screen.</li>
-        <li>Clicks go straight through to your apps everywhere except the pet itself.</li>
-      </ul>
-      <div class="row">
-        <button id="t-trick">Do a trick</button>
-        <button id="t-treat">Give a treat</button>
-        <button id="t-break">Take a break now</button>
-        <button id="t-screen">Next screen</button>
-        <button id="quit" class="ghost">Quit Pawse</button>
+      <p class="desc"><b>Click</b> to pet, <b>double-click</b> for a trick, <b>drag</b> to pick up and drop. Clicks go straight through to your apps everywhere except the pet itself.</p>
+      <div class="actions">
+        <button class="ui-btn" id="t-trick">Do a trick</button>
+        <button class="ui-btn" id="t-treat">Give a treat</button>
+        <button class="ui-btn primary" id="t-break">Take a break now</button>
+        <button class="ui-btn" id="t-screen">Next screen</button>
       </div>
     </section>
+
+    <footer class="ui-footer">
+      <span>Free and open source. Pawse never connects to the internet.</span>
+      <button id="quit" class="ui-link">Quit Pawse</button>
+    </footer>
   </main>
   <script type="module" src="js/settings.js"></script>
 </body>
