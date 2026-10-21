@@ -1,0 +1,73 @@
+html, body { margin: 0; height: 100%; background: transparent; overflow: hidden; user-select: none; -webkit-user-select: none; }
+body { font: 14px/1.4 system-ui, -apple-system, 'Segoe UI', Roboto, Ubuntu, sans-serif; }
+[hidden] { display: none !important; }
+#stage { position: absolute; left: 0; right: 0; bottom: 0; height: 300px; }
+#pet { cursor: grab; touch-action: none; }
+#pet[data-act='carried'] { cursor: grabbing; }
+
+#bubble {
+  position: absolute;
+  max-width: 300px;
+  background: #fffdf8;
+  color: #2b2622;
+  border-radius: 16px;
+  padding: 11px 14px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.22), 0 0 0 1px rgba(0, 0, 0, 0.06);
+  animation: pop 0.25s cubic-bezier(0.2, 1.5, 0.4, 1) both;
+}
+#bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: var(--tail, 40px);
+  width: 16px;
+  height: 16px;
+  background: #fffdf8;
+  transform: rotate(45deg);
+  border-radius: 3px;
+  box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.06);
+}
+@keyframes pop { from { transform: scale(0.6) translateY(10px); opacity: 0; } }
+#bubble b { color: #c2622a; }
+#bubble .big { font-size: 26px; font-weight: 750; font-variant-numeric: tabular-nums; display: block; margin: 2px 0; }
+#bubble .tip { color: #6d635a; display: block; margin-top: 2px; }
+#bubble .row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; position: relative; z-index: 1; }
+#bubble button {
+  font: inherit;
+  border: 0;
+  border-radius: 999px;
+  padding: 6px 13px;
+  cursor: pointer;
+  background: #efe8de;
+  color: #2b2622;
+}
+#bubble button.go { background: #e8823f; color: #fff; font-weight: 650; }
+#bubble button:hover { filter: brightness(0.95); }
+
+/* Browser preview: a pretend desktop behind the pet */
+#desk {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(160deg, #6aa5c8, #a7c7d9 55%, #e5d3bd);
+}
+#desk::before {
+  content: '';
+  position: absolute;
+  left: 8%;
+  top: 8%;
+  width: 52%;
+  height: 52%;
+  background: #f7f7f5;
+  border-radius: 10px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+  background-image: linear-gradient(#ececea 0 34px, transparent 34px), repeating-linear-gradient(#f7f7f5 0 22px, #e9e9e6 22px 24px);
+}
+#desk::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 0;
+}
+body.demo #stage { bottom: 0; }

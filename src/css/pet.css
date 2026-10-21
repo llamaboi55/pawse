@@ -1,0 +1,93 @@
+/* The pet's poses and moves. The SVG in art.js has three poses; data-pose picks one and
+   data-act adds the movement on top. */
+.pet { position: absolute; bottom: 0; width: calc(170px * var(--size, 1)); height: calc(120px * var(--size, 1)); }
+.pet .flip { width: 100%; height: 100%; transition: transform 0.18s; }
+.pet.left .flip { transform: scaleX(-1); }
+.pet-svg { width: 100%; height: 100%; overflow: visible; display: block; }
+.pet-svg * { transform-box: view-box; }
+
+.pose { display: none; }
+.pet[data-pose='stand'] .pose.stand,
+.pet[data-pose='sit'] .pose.sit,
+.pet[data-pose='sleep'] .pose.sleep { display: inline; }
+
+.yawn, .tongue { display: none; }
+.dog .tongue { display: inline; }
+.pet:not([data-act='walk']):not([data-act='run']) .dog .tongue { display: none; }
+
+/* Blinking and breathing, always */
+.eyes:not(.closed) { transform-origin: 6px -2px; animation: blink 5.2s infinite; }
+.head-wrap .eyes:not(.closed) { transform-box: fill-box; transform-origin: center; }
+@keyframes blink { 0%, 95%, 100% { transform: scaleY(1); } 97% { transform: scaleY(0.1); } }
+.pose.stand .torso, .pose.sit .torso { transform-origin: 74px 92px; animation: breathe 3.6s ease-in-out infinite; }
+.breathe { animation: breathe 4.4s ease-in-out infinite; }
+@keyframes breathe { 50% { transform: scaleY(1.035); } }
+.tail-wrap { animation: sway 3.4s ease-in-out infinite; }
+@keyframes sway { 50% { transform: rotate(-9deg); } }
+.dog .tail-wrap { animation: wag 0.5s ease-in-out infinite; }
+@keyframes wag { 50% { transform: rotate(16deg); } }
+.zzz text { animation: zzz 3s ease-in-out infinite; opacity: 0; }
+.zzz text:nth-child(2) { animation-delay: 0.6s; }
+.zzz text:nth-child(3) { animation-delay: 1.2s; }
+@keyframes zzz { 20% { opacity: 1; } 80% { opacity: 0.8; } 100% { opacity: 0; transform: translate(6px, -10px); } }
+
+/* Walking and running: legs swing in diagonal pairs */
+.pet[data-act='walk'] .leg.front.near, .pet[data-act='walk'] .leg.back.far { animation: legA 0.62s ease-in-out infinite; }
+.pet[data-act='walk'] .leg.front.far, .pet[data-act='walk'] .leg.back.near { animation: legB 0.62s ease-in-out infinite; }
+.pet[data-act='walk'] .pose.stand { animation: bob 0.31s ease-in-out infinite; }
+.pet[data-act='run'] .leg.front.near, .pet[data-act='run'] .leg.back.far { animation: legA 0.3s linear infinite; }
+.pet[data-act='run'] .leg.front.far, .pet[data-act='run'] .leg.back.near { animation: legB 0.3s linear infinite; }
+.pet[data-act='run'] .pose.stand { animation: bob 0.15s ease-in-out infinite; }
+.pet[data-act='run'] .tail-wrap { animation: none; transform: rotate(-30deg); }
+@keyframes legA { 0%, 100% { transform: rotate(24deg); } 50% { transform: rotate(-24deg); } }
+@keyframes legB { 0%, 100% { transform: rotate(-24deg); } 50% { transform: rotate(24deg); } }
+@keyframes bob { 50% { transform: translateY(-2px); } }
+
+/* Tricks */
+.pet[data-act='jump'] .flip { animation: jump 0.9s cubic-bezier(0.3, 0, 0.4, 1) both; }
+@keyframes jump {
+  0% { transform: var(--face) translateY(0) scale(1, 1); }
+  15% { transform: var(--face) translateY(4px) scale(1.08, 0.88); }
+  50% { transform: var(--face) translateY(-70px) scale(0.95, 1.08); }
+  85% { transform: var(--face) translateY(0) scale(1.1, 0.88); }
+  100% { transform: var(--face) translateY(0) scale(1, 1); }
+}
+.pet[data-act='roll'] .flip { animation: roll 1.1s ease-in-out both; }
+@keyframes roll {
+  0% { transform: var(--face) rotate(0); }
+  60% { transform: var(--face) translateY(-20px) rotate(360deg); }
+  100% { transform: var(--face) rotate(360deg); }
+}
+.pet[data-act='spin'] .flip { animation: spin 1s ease-in-out both; }
+@keyframes spin { 0%, 100% { transform: var(--face) scaleX(1); } 25%, 75% { transform: var(--face) scaleX(-1); } 50% { transform: var(--face) scaleX(1); } }
+.pet[data-act='stretch'] .pose.stand { transform-origin: 46px 110px; animation: stretch 2.4s ease-in-out both; }
+@keyframes stretch { 0%, 100% { transform: rotate(0); } 25%, 75% { transform: rotate(13deg) translateY(-4px); } }
+.pet[data-act='stretch'] .tail-wrap { animation: none; transform: rotate(-20deg); }
+.pet[data-act='wave'] .paw-raise { animation: wave 0.5s ease-in-out infinite alternate; }
+@keyframes wave { from { transform: rotate(-140deg); } to { transform: rotate(-170deg); } }
+.pet[data-act='groom'] .paw-raise { animation: groom 0.7s ease-in-out infinite alternate; }
+@keyframes groom { from { transform: rotate(-120deg); } to { transform: rotate(-150deg); } }
+.pet[data-act='groom'] .pose.sit .head { animation: tilt 0.7s ease-in-out infinite alternate; }
+@keyframes tilt { to { transform: rotate(10deg); } }
+.pet[data-act='yawn'] .yawn { display: inline; animation: yawnOpen 2s ease-in-out both; transform-box: fill-box; transform-origin: center top; }
+.pet[data-act='yawn'] .eyes:not(.closed) { animation: shut 2s ease-in-out both; }
+@keyframes yawnOpen { 0%, 100% { transform: scale(0.2); } 30%, 70% { transform: scale(1.1); } }
+@keyframes shut { 0%, 100% { transform: scaleY(1); } 25%, 75% { transform: scaleY(0.12); } }
+.pet[data-act='happy'] .pose .head { animation: nuzzle 0.4s ease-in-out 4 alternate; }
+@keyframes nuzzle { to { transform: rotate(-8deg); } }
+.pet[data-act='happy'] .eyes:not(.closed) { transform: scaleY(0.35); animation: none; }
+.pet[data-act='look'] .pose .head { animation: look 1.6s ease-in-out both; }
+@keyframes look { 30%, 70% { transform: rotate(-14deg) translateY(-2px); } }
+
+/* Being carried */
+.pet[data-act='carried'] .flip { animation: dangle 0.6s ease-in-out infinite alternate; transform-origin: 70% 30%; }
+@keyframes dangle { from { transform: var(--face) rotate(-6deg); } to { transform: var(--face) rotate(6deg); } }
+.pet[data-act='carried'] .leg { animation: legA 0.35s ease-in-out infinite; }
+.pet[data-act='carried'] .shadow { display: none; }
+
+.pet.left { --face: scaleX(-1); }
+.pet:not(.left) { --face: scaleX(1); }
+
+/* Little hearts and notes that float up */
+.fx { position: absolute; pointer-events: none; font-size: 18px; animation: floatUp 1.6s ease-out forwards; }
+@keyframes floatUp { from { opacity: 1; transform: translate(0, 0) scale(0.7); } to { opacity: 0; transform: translate(var(--dx, 0px), -70px) scale(1.2); } }
